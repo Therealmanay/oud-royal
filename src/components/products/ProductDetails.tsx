@@ -5,7 +5,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import {
   ShoppingBag, Star, Truck, Shield, RotateCcw, Minus, Plus, Crown, Heart,
-  ChevronLeft, ChevronRight, ZoomIn,
+  ChevronLeft, ChevronRight, ZoomIn, AlertTriangle,
 } from 'lucide-react'
 import { useCartStore } from '@/store/cartStore'
 import { useFavoritesStore } from '@/store/favoritesStore'
@@ -308,21 +308,51 @@ export default function ProductDetails({ product }: ProductDetailsProps) {
           {liked ? 'Dans vos favoris' : 'Ajouter aux favoris'}
         </button>
 
+       {/* Indication stock */}
+        {product.stock === 0 && (
+          <div className="flex items-center gap-2 p-4 bg-red-50 border border-red-200 rounded-lg">
+            <AlertTriangle size={18} className="text-red-500 shrink-0" />
+            <div>
+              <p className="text-sm font-semibold text-red-600">Rupture de stock</p>
+              <p className="text-xs text-red-400">Ce produit est temporairement indisponible</p>
+            </div>
+          </div>
+        )}
+
+        {product.stock > 0 && product.stock <= 10 && (
+          <div className="flex items-center gap-2 p-4 bg-orange-50 border border-orange-200 rounded-lg">
+            <AlertTriangle size={18} className="text-orange-500 shrink-0" />
+            <div>
+              <p className="text-sm font-semibold text-orange-600">
+                Plus que {product.stock} en stock !
+              </p>
+              <p className="text-xs text-orange-400">Dépêchez-vous, il n&apos;en reste presque plus</p>
+            </div>
+          </div>
+        )}
+
+        {product.stock > 10 && (
+          <div className="flex items-center gap-2">
+            <div className="w-2 h-2 bg-green-500 rounded-full" />
+            <span className="text-sm text-green-600 font-medium">En stock</span>
+          </div>
+        )}
+
         {/* Quantité + Panier */}
         <div className="flex items-center gap-4">
           <div className="flex items-center border border-gray-200 rounded-md">
-            <button onClick={() => setQuantity(Math.max(1, quantity - 1))} className="px-3 py-3 hover:bg-gray-50 cursor-pointer">
+            <button onClick={() => setQuantity(Math.max(1, quantity - 1))} className="px-3 py-3 hover:bg-gray-50 cursor-pointer" disabled={product.stock === 0}>
               <Minus size={16} />
             </button>
             <span className="px-4 py-3 min-w-[3rem] text-center font-medium text-gray-900">{quantity}</span>
-            <button onClick={() => setQuantity(quantity + 1)} className="px-3 py-3 hover:bg-gray-50 cursor-pointer">
+            <button onClick={() => setQuantity(Math.min(product.stock || 99, quantity + 1))} className="px-3 py-3 hover:bg-gray-50 cursor-pointer" disabled={product.stock === 0}>
               <Plus size={16} />
             </button>
           </div>
           <button
             onClick={handleAddToCart}
             disabled={product.stock === 0}
-            className="flex-1 btn-primary flex items-center justify-center gap-2 disabled:opacity-50 cursor-pointer"
+            className="flex-1 btn-primary flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
           >
             <ShoppingBag size={18} />
             {product.stock === 0 ? 'Rupture de stock' : 'Ajouter au panier'}

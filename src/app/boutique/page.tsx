@@ -13,6 +13,51 @@ interface BoutiquePageProps {
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>
 }
 
+/* ─── Couleur du header par catégorie ─── */
+function getCategoryTheme(category?: string) {
+  switch (category) {
+    case 'FEMME':
+      return {
+        bg: 'bg-accent-soft',
+        border: 'border-accent/10',
+        titleColor: 'text-accent-dark',
+      }
+    case 'HOMME':
+      return {
+        bg: 'bg-blue-royal-soft',
+        border: 'border-blue-royal/10',
+        titleColor: 'text-blue-royal',
+      }
+    default:
+      return {
+        bg: 'bg-cream',
+        border: 'border-gray-100',
+        titleColor: 'text-gray-900',
+      }
+  }
+}
+
+/* ─── Couleur pagination par catégorie ─── */
+function getPaginationColors(category?: string) {
+  switch (category) {
+    case 'FEMME':
+      return {
+        active: 'bg-accent text-white',
+        inactive: 'bg-gray-50 text-gray-600 hover:bg-accent/10 hover:text-accent',
+      }
+    case 'HOMME':
+      return {
+        active: 'bg-blue-royal text-white',
+        inactive: 'bg-gray-50 text-gray-600 hover:bg-blue-royal/10 hover:text-blue-royal',
+      }
+    default:
+      return {
+        active: 'bg-primary text-white',
+        inactive: 'bg-gray-50 text-gray-600 hover:bg-primary/10 hover:text-primary',
+      }
+  }
+}
+
 export default async function BoutiquePage({ searchParams }: BoutiquePageProps) {
   const params = await searchParams
 
@@ -76,15 +121,19 @@ export default async function BoutiquePage({ searchParams }: BoutiquePageProps) 
 
   // Titre dynamique
   let pageTitle = 'Notre Boutique'
-  if (filter === 'new') pageTitle = 'Nouveautés'
-  if (filter === 'promo') pageTitle = 'Promotions'
-  if (category === 'HOMME') pageTitle = 'Parfums Homme'
-  if (category === 'FEMME') pageTitle = 'Parfums Femme'
-  if (category === 'UNISEX') pageTitle = 'Parfums Unisex'
+  let pageSubtitle = ''
+  if (filter === 'new') { pageTitle = 'Nouveautés'; pageSubtitle = 'Les derniers arrivages' }
+  if (filter === 'promo') { pageTitle = 'Promotions'; pageSubtitle = 'Offres exceptionnelles' }
+  if (category === 'HOMME') { pageTitle = 'Parfums Homme'; pageSubtitle = 'Puissance & élégance masculine' }
+  if (category === 'FEMME') { pageTitle = 'Parfums Femme'; pageSubtitle = 'Féminité & raffinement' }
+  if (category === 'UNISEX') { pageTitle = 'Parfums Unisex'; pageSubtitle = 'L\'art du partage' }
   if (brand) {
     const found = allBrands.find((b: { slug: string; name: string }) => b.slug === brand)
-    if (found) pageTitle = found.name
+    if (found) { pageTitle = found.name; pageSubtitle = 'Collection complète' }
   }
+
+  const theme = getCategoryTheme(category)
+  const paginationColors = getPaginationColors(category)
 
   const buildPageUrl = (pageNum: number) => {
     const p = new URLSearchParams()
@@ -102,12 +151,15 @@ export default async function BoutiquePage({ searchParams }: BoutiquePageProps) 
     <>
       <Header />
       <main className="min-h-screen bg-white">
-        <div className="bg-cream border-b border-gray-100 py-8">
+        <div className={`${theme.bg} border-b ${theme.border} py-10`}>
           <div className="container-custom">
-            <h1 className="font-playfair text-2xl sm:text-3xl font-bold text-gray-900">
+            <h1 className={`font-playfair text-2xl sm:text-3xl font-bold ${theme.titleColor}`}>
               {pageTitle}
             </h1>
-            <p className="text-sm text-gray-400 mt-1">
+            {pageSubtitle && (
+              <p className="text-sm text-gray-400 mt-1 italic">{pageSubtitle}</p>
+            )}
+            <p className="text-xs text-gray-400 mt-2">
               {totalCount} produit{totalCount > 1 ? 's' : ''}
             </p>
           </div>
@@ -134,10 +186,10 @@ export default async function BoutiquePage({ searchParams }: BoutiquePageProps) 
                 <a
                   key={n}
                   href={buildPageUrl(n)}
-                  className={`w-10 h-10 rounded-lg flex items-center justify-center text-sm font-medium cursor-pointer ${
+                  className={`w-10 h-10 flex items-center justify-center text-sm font-medium cursor-pointer ${
                     n === currentPage
-                      ? 'bg-primary text-white'
-                      : 'bg-gray-50 text-gray-600 hover:bg-primary/10 hover:text-primary'
+                      ? paginationColors.active
+                      : paginationColors.inactive
                   }`}
                 >
                   {n}

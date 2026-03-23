@@ -6,8 +6,28 @@ import FeaturedProducts from '@/components/home/FeaturedProducts'
 import BestSellers from '@/components/home/BestSellers'
 import WhyChooseUs from '@/components/home/WhyChooseUs'
 import Testimonials from '@/components/home/Testimonials'
+import prisma from '@/lib/prisma'
 
-export default function HomePage() {
+export default async function HomePage() {
+  // Charger les avis approuvés depuis la DB
+  const reviews = await prisma.siteReview.findMany({
+    where: { isApproved: true },
+    orderBy: { createdAt: 'desc' },
+    select: {
+      id: true,
+      name: true,
+      rating: true,
+      comment: true,
+      createdAt: true,
+    },
+  })
+
+  // Sérialiser les dates pour le client component
+  const serializedReviews = reviews.map((r) => ({
+    ...r,
+    createdAt: r.createdAt.toISOString(),
+  }))
+
   return (
     <>
       <Header />
@@ -17,7 +37,7 @@ export default function HomePage() {
         <FeaturedProducts />
         <BestSellers />
         <WhyChooseUs />
-        <Testimonials />
+        <Testimonials reviews={serializedReviews} />
       </main>
       <Footer />
     </>

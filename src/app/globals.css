@@ -1,25 +1,38 @@
 @import "tailwindcss";
 
 @theme {
-  /* Couleurs Bleu */
-  --color-blue-50: #EFF6FF;
-  --color-blue-100: #DBEAFE;
-  --color-blue-200: #BFDBFE;
-  --color-blue-300: #93C5FD;
-  --color-blue-400: #60A5FA;
-  --color-blue-500: #3B82F6;
-  --color-blue-600: #2563EB;
-  --color-blue-700: #1D4ED8;
-  --color-blue-800: #1E40AF;
-  --color-blue-900: #1E3A8A;
-  --color-primary: #2563EB;
-  --color-primary-light: #3B82F6;
-  --color-primary-dark: #1E40AF;
+  /* ═══════════════════════════════════════
+     PUBLIC SITE — Minimal Luxe
+     ═══════════════════════════════════════ */
 
-  /* Couleurs neutres */
-  --color-cream: #F9FAFB;
-  --color-cream-dark: #F3F4F6;
-  --color-dark: #111827;
+  /* Couleurs principales */
+  --color-primary: #000000;
+  --color-primary-light: #1a1a1a;
+  --color-primary-dark: #000000;
+
+  /* Accent Rose Vrai */
+  --color-accent: #E84C7A;
+  --color-accent-light: #F472A8;
+  --color-accent-dark: #C73E65;
+  --color-accent-soft: rgba(232, 76, 122, 0.06);
+  --color-accent-medium: rgba(232, 76, 122, 0.12);
+
+  /* Bleu Royal (Homme) */
+  --color-blue-royal: #1A3A6B;
+  --color-blue-royal-light: #2A4F8F;
+  --color-blue-royal-dark: #0F2647;
+  --color-blue-royal-soft: rgba(26, 58, 107, 0.06);
+  --color-blue-royal-medium: rgba(26, 58, 107, 0.12);
+
+  /* Or Chaud (badges & touches) */
+  --color-warm-gold: #D4A855;
+  --color-warm-gold-light: #E0BE78;
+  --color-warm-gold-dark: #B8903D;
+
+  /* Neutres */
+  --color-cream: #FAFAFA;
+  --color-cream-dark: #F5F5F5;
+  --color-dark: #111111;
   --color-dark-50: #374151;
   --color-dark-100: #1F2937;
   --color-dark-200: #111827;
@@ -27,14 +40,25 @@
   --color-dark-400: #151515;
   --color-dark-500: #111111;
 
-  /* Admin Dark Theme */
+  /* Grays */
+  --color-gray-100: #F7F7F7;
+  --color-gray-200: #EFEFEF;
+  --color-gray-300: #E0E0E0;
+  --color-gray-400: #B0B0B0;
+  --color-gray-500: #8A8A8A;
+  --color-gray-600: #6B6B6B;
+  --color-gray-700: #4A4A4A;
+  --color-gray-800: #2D2D2D;
+  --color-gray-900: #1A1A1A;
+
+  /* Admin Dark Theme (inchangé) */
   --color-dark-primary: #0a0a0a;
   --color-dark-secondary: #141414;
   --color-dark-card: #1c1c1c;
   --color-dark-card-hover: #242424;
   --color-dark-border: #2a2a2a;
 
-  /* Gold (Admin accent) */
+  /* Gold (Admin accent — inchangé) */
   --color-gold: #c8a45c;
   --color-gold-dark: #a88a3c;
   --color-gold-light: #d4b06a;
@@ -45,6 +69,7 @@
   --font-cormorant: 'Cormorant Garamond', serif;
   --font-heading: 'Playfair Display', serif;
 
+  /* Animations */
   --animate-fade-in: fadeIn 0.5s ease-in-out;
   --animate-slide-up: slideUp 0.5s ease-out;
 }
@@ -59,23 +84,29 @@
   100% { opacity: 1; transform: translateY(0); }
 }
 
-/* Base */
+/* ═══════════════════════════════════════
+   BASE
+   ═══════════════════════════════════════ */
+
 body {
   background-color: #FFFFFF;
-  color: #111827;
+  color: #1a1a1a;
   font-family: var(--font-poppins);
 }
 
-::-webkit-scrollbar { width: 6px; }
-::-webkit-scrollbar-track { background: #f1f1f1; }
-::-webkit-scrollbar-thumb { background: #2563EB; border-radius: 9999px; }
+/* Scrollbar subtile rose */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--color-accent-light); border-radius: 9999px; }
+::-webkit-scrollbar-thumb:hover { background: var(--color-accent); }
 
+/* Sélection rose */
 ::selection {
-  background: rgba(37, 99, 235, 0.15);
-  color: #111827;
+  background: var(--color-accent-medium);
+  color: #000000;
 }
 
-/* Curseur pointer sur tous les liens et boutons */
+/* Curseur pointer */
 a, button, [role="button"] {
   cursor: pointer;
 }
@@ -85,44 +116,66 @@ a, button, [role="button"] {
    ═══════════════════════════════════════ */
 
 @utility btn-primary {
-  background-color: var(--color-primary);
-  color: white;
-  font-weight: 600;
-  padding: 0.75rem 2rem;
-  border-radius: 0.375rem;
-  transition: all 0.3s;
+  background-color: #000000;
+  color: #FFFFFF;
+  font-weight: 500;
+  padding: 0.8rem 2.2rem;
+  border-radius: 0;
+  transition: all 0.3s ease;
   font-size: 0.8125rem;
-  letter-spacing: 0.02em;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
   &:hover {
-    background-color: var(--color-primary-dark);
+    background-color: var(--color-accent);
   }
 }
 
 @utility btn-secondary {
-  border: 1.5px solid #E5E7EB;
-  color: #374151;
+  border: 1px solid #000000;
+  color: #000000;
   font-weight: 500;
-  padding: 0.75rem 2rem;
-  border-radius: 0.375rem;
-  transition: all 0.3s;
+  padding: 0.8rem 2.2rem;
+  border-radius: 0;
+  transition: all 0.3s ease;
   font-size: 0.8125rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  background-color: transparent;
   &:hover {
-    border-color: var(--color-primary);
-    color: var(--color-primary);
+    background-color: #000000;
+    color: #FFFFFF;
   }
 }
 
 @utility btn-outline-primary {
-  border: 1.5px solid var(--color-primary);
-  color: var(--color-primary);
-  font-weight: 600;
-  padding: 0.75rem 2rem;
-  border-radius: 0.375rem;
-  transition: all 0.3s;
+  border: 1px solid #000000;
+  color: #000000;
+  font-weight: 500;
+  padding: 0.8rem 2.2rem;
+  border-radius: 0;
+  transition: all 0.3s ease;
   font-size: 0.8125rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  background-color: transparent;
   &:hover {
-    background-color: var(--color-primary);
-    color: white;
+    background-color: #000000;
+    color: #FFFFFF;
+  }
+}
+
+@utility btn-accent {
+  background-color: var(--color-accent);
+  color: #FFFFFF;
+  font-weight: 500;
+  padding: 0.8rem 2.2rem;
+  border-radius: 0;
+  transition: all 0.3s ease;
+  font-size: 0.8125rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  &:hover {
+    background-color: var(--color-accent-dark);
   }
 }
 
@@ -143,102 +196,100 @@ a, button, [role="button"] {
 }
 
 @utility card-product {
-  background-color: white;
-  border: 1px solid #F3F4F6;
-  border-radius: 0.5rem;
+  background-color: #FFFFFF;
+  border: none;
   overflow: hidden;
-  transition: all 0.3s;
+  transition: all 0.4s ease;
   &:hover {
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
-    border-color: #E5E7EB;
+    box-shadow: 0 2px 20px rgba(0, 0, 0, 0.05);
   }
 }
 
 @utility input-field {
   width: 100%;
   background-color: #FFFFFF;
-  border: 1px solid #E5E7EB;
-  border-radius: 0.375rem;
-  padding: 0.75rem 1rem;
-  color: #111827;
+  border: 1px solid #E0E0E0;
+  border-radius: 0;
+  padding: 0.85rem 1rem;
+  color: #1a1a1a;
   font-size: 0.875rem;
-  transition: all 0.2s;
-  &::placeholder { color: #9CA3AF; }
+  transition: all 0.2s ease;
+  &::placeholder { color: #B0B0B0; }
   &:focus {
     outline: none;
-    border-color: var(--color-primary);
-    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+    border-color: var(--color-accent);
+    box-shadow: none;
   }
 }
 
 @utility select-field {
   width: 100%;
   background-color: #FFFFFF;
-  border: 1px solid #E5E7EB;
-  border-radius: 0.375rem;
-  padding: 0.75rem 1rem;
-  color: #111827;
+  border: 1px solid #E0E0E0;
+  border-radius: 0;
+  padding: 0.85rem 1rem;
+  color: #1a1a1a;
   font-size: 0.875rem;
-  transition: all 0.2s;
+  transition: all 0.2s ease;
   appearance: none;
   &:focus {
     outline: none;
-    border-color: var(--color-primary);
-    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+    border-color: var(--color-accent);
+    box-shadow: none;
   }
 }
 
 @utility badge-new {
   display: inline-flex;
   align-items: center;
-  padding: 0.25rem 0.5rem;
+  padding: 0.25rem 0.625rem;
   font-size: 0.625rem;
   font-weight: 600;
   text-transform: uppercase;
-  letter-spacing: 0.05em;
-  background-color: var(--color-primary);
-  color: white;
-  border-radius: 0.25rem;
+  letter-spacing: 0.1em;
+  background-color: #1a1a1a;
+  color: #FFFFFF;
+  border-radius: 0;
 }
 
 @utility badge-sale {
   display: inline-flex;
   align-items: center;
-  padding: 0.25rem 0.5rem;
+  padding: 0.25rem 0.625rem;
   font-size: 0.625rem;
   font-weight: 600;
   text-transform: uppercase;
-  letter-spacing: 0.05em;
-  background-color: #DC2626;
-  color: white;
-  border-radius: 0.25rem;
+  letter-spacing: 0.1em;
+  background-color: var(--color-accent);
+  color: #FFFFFF;
+  border-radius: 0;
 }
 
 @utility badge-best {
   display: inline-flex;
   align-items: center;
-  padding: 0.25rem 0.5rem;
+  padding: 0.25rem 0.625rem;
   font-size: 0.625rem;
   font-weight: 600;
   text-transform: uppercase;
-  letter-spacing: 0.05em;
-  background-color: #F59E0B;
-  color: white;
-  border-radius: 0.25rem;
+  letter-spacing: 0.1em;
+  background-color: var(--color-warm-gold);
+  color: #FFFFFF;
+  border-radius: 0;
 }
 
 @utility divider {
   height: 1px;
-  background-color: #F3F4F6;
+  background-color: #EFEFEF;
 }
 
 @utility section-padding {
-  padding-top: 4rem;
-  padding-bottom: 4rem;
+  padding-top: 5rem;
+  padding-bottom: 5rem;
 }
 
 /* ═══════════════════════════════════════
-   ADMIN DARK THEME UTILITIES
+   ADMIN DARK THEME UTILITIES (inchangé)
    ═══════════════════════════════════════ */
 
 @utility card-dark {

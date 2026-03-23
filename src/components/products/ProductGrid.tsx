@@ -16,6 +16,7 @@ interface ProductGridProps {
     isNew: boolean
     isBestSeller: boolean
     category: string
+    stock?: number
     brand: {
       name: string
       slug: string

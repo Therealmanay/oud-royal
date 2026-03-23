@@ -6,6 +6,7 @@ import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 import Link from 'next/link'
+import Image from 'next/image'
 import {
   Loader2,
   ShoppingBag,
@@ -345,9 +346,23 @@ export default function CheckoutForm() {
               <div className="space-y-4 mb-6">
                 {items.map((item) => (
                   <div key={item.id} className="flex gap-3">
-                    <div className="w-16 h-16 bg-cream rounded-md flex items-center justify-center shrink-0">
-                      <ShoppingBag className="text-primary/20" size={20} />
+                    {/* ═══ IMAGE DU PRODUIT ═══ */}
+                    <div className="w-16 h-16 bg-cream rounded-md shrink-0 overflow-hidden relative">
+                      {item.image && item.image.length > 0 ? (
+                        <Image
+                          src={item.image}
+                          alt={item.name}
+                          fill
+                          className="object-cover"
+                          sizes="64px"
+                        />
+                      ) : (
+                        <div className="w-full h-full flex items-center justify-center">
+                          <ShoppingBag className="text-primary/20" size={20} />
+                        </div>
+                      )}
                     </div>
+
                     <div className="flex-1 min-w-0">
                       <p className="text-[10px] uppercase tracking-wider text-primary font-medium">
                         {item.brandName}

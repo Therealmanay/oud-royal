@@ -56,7 +56,7 @@ export default function Header() {
         <div className="container-custom">
           <div className="flex items-center justify-between h-14">
             {/* Mobile menu */}
-            <button onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)} className="lg:hidden p-2 text-gray-700 hover:text-primary cursor-pointer">
+            <button onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)} className="lg:hidden p-2 text-gray-700 hover:text-accent transition-colors cursor-pointer">
               {isMobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
             </button>
 
@@ -95,26 +95,26 @@ export default function Header() {
 
             {/* Actions droite */}
             <div className="flex items-center gap-2">
-              <a href="tel:+212600000000" className="hidden xl:flex items-center gap-1.5 text-xs text-gray-400 hover:text-primary cursor-pointer">
+              <a href="tel:+212600000000" className="hidden xl:flex items-center gap-1.5 text-xs text-gray-400 hover:text-accent transition-colors cursor-pointer">
                 <Phone size={13} />
                 +212 6 00 00 00 00
               </a>
 
               {/* Favoris */}
-              <Link href="/favoris" className="relative p-2 text-gray-700 hover:text-red-500 transition-colors cursor-pointer">
+              <Link href="/favoris" className="relative p-2 text-gray-700 hover:text-accent transition-colors cursor-pointer">
                 <Heart size={20} />
                 {mounted && totalFavItems > 0 && (
-                  <span className="absolute -top-0.5 -right-0.5 bg-red-500 text-white text-[10px] font-bold w-[18px] h-[18px] rounded-full flex items-center justify-center">
+                  <span className="absolute -top-0.5 -right-0.5 bg-accent text-white text-[10px] font-bold w-[18px] h-[18px] rounded-full flex items-center justify-center">
                     {totalFavItems}
                   </span>
                 )}
               </Link>
 
               {/* Panier */}
-              <button onClick={() => openCart()} className="relative p-2 text-gray-700 hover:text-primary transition-colors cursor-pointer">
+              <button onClick={() => openCart()} className="relative p-2 text-gray-700 hover:text-accent transition-colors cursor-pointer">
                 <ShoppingBag size={20} />
                 {mounted && totalCartItems > 0 && (
-                  <span className="absolute -top-0.5 -right-0.5 bg-primary text-white text-[10px] font-bold w-[18px] h-[18px] rounded-full flex items-center justify-center">
+                  <span className="absolute -top-0.5 -right-0.5 bg-accent text-white text-[10px] font-bold w-[18px] h-[18px] rounded-full flex items-center justify-center">
                     {totalCartItems}
                   </span>
                 )}
@@ -123,7 +123,7 @@ export default function Header() {
           </div>
         </div>
 
-        <div className="h-[2px] bg-gradient-to-r from-transparent via-primary/40 to-transparent" />
+        <div className="h-[2px] bg-gradient-to-r from-transparent via-accent/40 to-transparent" />
 
         {/* Mobile menu */}
         <AnimatePresence>
@@ -177,7 +177,7 @@ export default function Header() {
 
 function NavItem({ href, label, active = false }: { href: string; label: string; active?: boolean }) {
   return (
-    <Link href={href} className={`px-3 py-2 text-[13px] font-medium transition-colors cursor-pointer ${active ? 'text-primary' : 'text-gray-600 hover:text-primary'}`}>
+    <Link href={href} className={`px-3 py-2 text-[13px] font-medium transition-colors cursor-pointer ${active ? 'text-accent' : 'text-gray-600 hover:text-accent'}`}>
       {label}
     </Link>
   )
@@ -191,7 +191,7 @@ function HoverDropdown({ label, items }: { label: string; items: { label: string
 
   return (
     <div className="relative h-full flex items-center" onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
-      <button className={`flex items-center gap-1 px-3 py-2 text-[13px] font-medium transition-colors cursor-pointer ${isOpen ? 'text-primary' : 'text-gray-600 hover:text-primary'}`}>
+      <button className={`flex items-center gap-1 px-3 py-2 text-[13px] font-medium transition-colors cursor-pointer ${isOpen ? 'text-accent' : 'text-gray-600 hover:text-accent'}`}>
         {label}
         <ChevronDown size={12} className={`transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`} />
       </button>
@@ -202,10 +202,10 @@ function HoverDropdown({ label, items }: { label: string; items: { label: string
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 4 }}
             transition={{ duration: 0.12 }}
-            className="absolute top-full left-0 mt-0 w-52 bg-white border border-gray-100 rounded-lg shadow-xl shadow-black/5 overflow-hidden"
+            className="absolute top-full left-0 mt-0 w-52 bg-white border border-gray-100 shadow-xl shadow-black/5 overflow-hidden"
           >
             {items.map((item) => (
-              <Link key={item.href} href={item.href} className="block px-4 py-2.5 text-sm text-gray-600 hover:text-primary hover:bg-blue-50/50 transition-colors cursor-pointer">
+              <Link key={item.href} href={item.href} className="block px-4 py-2.5 text-sm text-gray-600 hover:text-accent hover:bg-accent-soft transition-colors cursor-pointer">
                 {item.label}
               </Link>
             ))}
@@ -218,7 +218,7 @@ function HoverDropdown({ label, items }: { label: string; items: { label: string
 
 function MobileLink({ href, label }: { href: string; label: string }) {
   return (
-    <Link href={href} className="px-4 py-2.5 text-sm font-medium text-gray-700 hover:text-primary cursor-pointer">
+    <Link href={href} className="px-4 py-2.5 text-sm font-medium text-gray-700 hover:text-accent transition-colors cursor-pointer">
       {label}
     </Link>
   )
@@ -227,7 +227,7 @@ function MobileLink({ href, label }: { href: string; label: string }) {
 function MobileDropdown({ label, isOpen, onToggle, items }: { label: string; isOpen: boolean; onToggle: () => void; items: { label: string; href: string }[] }) {
   return (
     <div>
-      <button onClick={onToggle} className="flex items-center justify-between w-full px-4 py-2.5 text-sm font-medium text-gray-700 hover:text-primary cursor-pointer">
+      <button onClick={onToggle} className="flex items-center justify-between w-full px-4 py-2.5 text-sm font-medium text-gray-700 hover:text-accent transition-colors cursor-pointer">
         {label}
         <ChevronDown size={14} className={`transition-transform ${isOpen ? 'rotate-180' : ''}`} />
       </button>
@@ -237,10 +237,10 @@ function MobileDropdown({ label, isOpen, onToggle, items }: { label: string; isO
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
-            className="ml-4 border-l-2 border-primary/20 overflow-hidden"
+            className="ml-4 border-l-2 border-accent/30 overflow-hidden"
           >
             {items.map((item) => (
-              <Link key={item.href} href={item.href} className="block px-4 py-2 text-sm text-gray-500 hover:text-primary cursor-pointer">
+              <Link key={item.href} href={item.href} className="block px-4 py-2 text-sm text-gray-500 hover:text-accent transition-colors cursor-pointer">
                 {item.label}
               </Link>
             ))}

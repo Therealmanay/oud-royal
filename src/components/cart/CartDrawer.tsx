@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import Image from 'next/image'
 import Link from 'next/link'
 import { motion, AnimatePresence } from 'framer-motion'
 import { X, Plus, Minus, Trash2, ShoppingBag } from 'lucide-react'
@@ -98,8 +99,21 @@ export default function CartDrawer() {
 
                   {items.map((item) => (
                     <div key={item.id} className="flex gap-4 py-4 border-b border-gray-50">
-                      <div className="w-20 h-20 bg-cream flex items-center justify-center shrink-0">
-                        <ShoppingBag className="text-primary/20" size={24} />
+                      {/* ═══ IMAGE DU PRODUIT ═══ */}
+                      <div className="w-20 h-20 bg-cream shrink-0 rounded overflow-hidden relative">
+                        {item.image && item.image.length > 0 ? (
+                          <Image
+                            src={item.image}
+                            alt={item.name}
+                            fill
+                            className="object-cover"
+                            sizes="80px"
+                          />
+                        ) : (
+                          <div className="w-full h-full flex items-center justify-center">
+                            <ShoppingBag className="text-primary/20" size={24} />
+                          </div>
+                        )}
                       </div>
 
                       <div className="flex-1 min-w-0">

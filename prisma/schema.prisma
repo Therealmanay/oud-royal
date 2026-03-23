@@ -37,36 +37,36 @@ model Brand {
 }
 
 model Product {
-  id          String      @id @default(cuid())
-  name        String
-  slug        String      @unique
-  description String      @db.Text
-  price       Float
-  oldPrice    Float?
-  volume      String
-  type        ProductType @default(EAU_DE_PARFUM)
-  category    Category    @default(UNISEX)
-  image       String
-  images      String[]
-  notesTop    String[]
-  notesMiddle String[]
-  notesBase   String[]
-  rating      Float       @default(0)
-  reviewCount Int         @default(0)
-  stock       Int         @default(0)
-  sold        Int         @default(0)
-  isFeatured  Boolean     @default(false)
-  isNew       Boolean     @default(false)
-  isBestSeller Boolean    @default(false)
-  isActive    Boolean     @default(true)
-  brand       Brand       @relation(fields: [brandId], references: [id])
-  brandId     String
-  orderItems  OrderItem[]
-  reviews     Review[]
+  id              String      @id @default(cuid())
+  name            String
+  slug            String      @unique
+  description     String      @db.Text
+  price           Float
+  oldPrice        Float?
+  volume          String
+  type            ProductType @default(EAU_DE_PARFUM)
+  category        Category    @default(UNISEX)
+  image           String
+  images          String[]
+  notesTop        String[]
+  notesMiddle     String[]
+  notesBase       String[]
+  rating          Float       @default(0)
+  reviewCount     Int         @default(0)
+  stock           Int         @default(0)
+  sold            Int         @default(0)
+  isFeatured      Boolean     @default(false)
+  isNew           Boolean     @default(false)
+  isBestSeller    Boolean     @default(false)
+  isActive        Boolean     @default(true)
+  brand           Brand       @relation(fields: [brandId], references: [id])
+  brandId         String
+  orderItems      OrderItem[]
+  reviews         Review[]
   metaTitle       String?
   metaDescription String?
-  createdAt   DateTime    @default(now())
-  updatedAt   DateTime    @updatedAt
+  createdAt       DateTime    @default(now())
+  updatedAt       DateTime    @updatedAt
 
   @@index([brandId])
   @@index([category])
@@ -88,8 +88,8 @@ enum Category {
 }
 
 model Order {
-  id            String      @id @default(cuid())
-  orderNumber   String      @unique
+  id            String        @id @default(cuid())
+  orderNumber   String        @unique
   firstName     String
   lastName      String
   phone         String
@@ -100,14 +100,14 @@ model Order {
   subtotal      Float
   shippingCost  Float
   total         Float
-  status        OrderStatus @default(PENDING)
-  paymentMethod String      @default("COD")
+  status        OrderStatus   @default(PENDING)
+  paymentMethod String        @default("COD")
   notes         String?
   adminNotes    String?
   items         OrderItem[]
   statusHistory StatusHistory[]
-  createdAt     DateTime    @default(now())
-  updatedAt     DateTime    @updatedAt
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
 
   @@index([status])
   @@index([orderNumber])
@@ -150,16 +150,26 @@ model StatusHistory {
 }
 
 model Review {
-  id        String   @id @default(cuid())
-  name      String
-  rating    Int
-  comment   String   @db.Text
-  isApproved Boolean @default(false)
-  product   Product  @relation(fields: [productId], references: [id])
-  productId String
-  createdAt DateTime @default(now())
+  id         String   @id @default(cuid())
+  name       String
+  rating     Int
+  comment    String   @db.Text
+  isApproved Boolean  @default(false)
+  product    Product  @relation(fields: [productId], references: [id])
+  productId  String
+  createdAt  DateTime @default(now())
 
   @@index([productId])
+}
+
+model SiteReview {
+  id         String   @id @default(cuid())
+  name       String
+  email      String?
+  rating     Int
+  comment    String   @db.Text
+  isApproved Boolean  @default(false)
+  createdAt  DateTime @default(now())
 }
 
 model SiteSettings {
@@ -180,13 +190,13 @@ model SiteSettings {
 }
 
 model PromoBanner {
-  id        String   @id @default(cuid())
+  id        String    @id @default(cuid())
   title     String
   subtitle  String?
   link      String?
   image     String?
-  isActive  Boolean  @default(true)
+  isActive  Boolean   @default(true)
   startDate DateTime?
   endDate   DateTime?
-  createdAt DateTime @default(now())
+  createdAt DateTime  @default(now())
 }

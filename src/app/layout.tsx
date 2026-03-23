@@ -4,7 +4,7 @@ import './globals.css'
 
 export const metadata: Metadata = {
   title: {
-    default: 'OUD ROYAL - Parfums Orientaux de Luxe',
+    default: 'OUD ROYAL — Parfums Orientaux de Luxe',
     template: '%s | OUD ROYAL',
   },
   description:
@@ -26,19 +26,25 @@ export default function RootLayout({
           rel="stylesheet"
         />
       </head>
-      <body className="font-poppins antialiased" suppressHydrationWarning>
+      <body className="font-poppins antialiased bg-white text-[#1a1a1a]" suppressHydrationWarning>
         <Toaster
           position="top-center"
           toastOptions={{
             duration: 3000,
             style: {
-              background: '#1A1A1A',
-              color: '#fff',
+              background: '#000000',
+              color: '#FFFFFF',
               borderRadius: '0',
-              fontSize: '14px',
+              fontSize: '13px',
+              fontWeight: '400',
+              letterSpacing: '0.02em',
+              padding: '14px 20px',
             },
             success: {
-              iconTheme: { primary: '#c8a45c', secondary: '#fff' },
+              iconTheme: { primary: '#FFFFFF', secondary: '#000000' },
+            },
+            error: {
+              iconTheme: { primary: '#FFFFFF', secondary: '#000000' },
             },
           }}
         />
