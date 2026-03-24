@@ -15,30 +15,43 @@ export async function PATCH(
 
     const { id } = await params
     const body = await request.json()
+    const { isApproved, type } = body
 
-    const review = await prisma.review.update({
-      where: { id },
-      data: { isApproved: body.isApproved },
-    })
+    if (type === 'site') {
+      // Avis général
+      const review = await prisma.siteReview.update({
+        where: { id },
+        data: { isApproved },
+      })
+      return NextResponse.json({ success: true, review })
+    } else {
+      // Avis produit
+      const review = await prisma.review.update({
+        where: { id },
+        data: { isApproved },
+      })
 
-    // Recalculer le rating du produit
-    const stats = await prisma.review.aggregate({
-      where: { productId: review.productId, isApproved: true },
-      _avg: { rating: true },
-      _count: true,
-    })
+      // Recalculer le rating du produit
+      const stats = await prisma.review.aggregate({
+        where: { productId: review.productId, isApproved: true },
+        _avg: { rating: true },
+        _count: true,
+      })
 
-    await prisma.product.update({
-      where: { id: review.productId },
-      data: {
-        rating: stats._avg.rating || 0,
-        reviewCount: stats._count,
-      },
-    })
+      await prisma.product.update({
+        where: { id: review.productId },
+        data: {
+          rating: stats._avg.rating || 0,
+          reviewCount: stats._count,
+        },
+      })
 
-    return NextResponse.json({ success: true, review })
-  } catch (error: any) {
-    return NextResponse.json({ error: error.message || 'Erreur serveur' }, { status: 500 })
+      return NextResponse.json({ success: true, review })
+    }
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : 'Erreur serveur'
+    console.error('PATCH /api/admin/reviews/[id] error:', error)
+    return NextResponse.json({ error: message }, { status: 500 })
   }
 }
 
@@ -53,26 +66,37 @@ export async function DELETE(
     }
 
     const { id } = await params
+    const url = new URL(request.url)
+    const type = url.searchParams.get('type')
 
-    const review = await prisma.review.delete({ where: { id } })
+    if (type === 'site') {
+      // Supprimer avis général
+      await prisma.siteReview.delete({ where: { id } })
+      return NextResponse.json({ success: true })
+    } else {
+      // Supprimer avis produit
+      const review = await prisma.review.delete({ where: { id } })
 
-    // Recalculer le rating
-    const stats = await prisma.review.aggregate({
-      where: { productId: review.productId, isApproved: true },
-      _avg: { rating: true },
-      _count: true,
-    })
+      // Recalculer le rating
+      const stats = await prisma.review.aggregate({
+        where: { productId: review.productId, isApproved: true },
+        _avg: { rating: true },
+        _count: true,
+      })
 
-    await prisma.product.update({
-      where: { id: review.productId },
-      data: {
-        rating: stats._avg.rating || 0,
-        reviewCount: stats._count,
-      },
-    })
+      await prisma.product.update({
+        where: { id: review.productId },
+        data: {
+          rating: stats._avg.rating || 0,
+          reviewCount: stats._count,
+        },
+      })
 
-    return NextResponse.json({ success: true })
-  } catch (error: any) {
-    return NextResponse.json({ error: error.message || 'Erreur serveur' }, { status: 500 })
+      return NextResponse.json({ success: true })
+    }
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : 'Erreur serveur'
+    console.error('DELETE /api/admin/reviews/[id] error:', error)
+    return NextResponse.json({ error: message }, { status: 500 })
   }
 }

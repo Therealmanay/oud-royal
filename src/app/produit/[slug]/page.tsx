@@ -61,20 +61,29 @@ export default async function ProductPage({ params }: PageProps) {
     take: 4,
   })
 
+  // Sérialiser les dates des reviews
+  const serializedProduct = {
+    ...product,
+    reviews: product.reviews.map((r) => ({
+      ...r,
+      createdAt: r.createdAt.toISOString(),
+    })),
+  }
+
   return (
     <>
       <Header />
       <main className="min-h-screen bg-white">
         <div className="container-custom py-6">
           <nav className="flex items-center gap-2 text-sm text-gray-400 mb-8">
-            <a href="/" className="hover:text-primary transition-colors cursor-pointer">Accueil</a>
+            <a href="/" className="hover:text-accent transition-colors cursor-pointer">Accueil</a>
             <span>/</span>
-            <a href="/boutique" className="hover:text-primary transition-colors cursor-pointer">Boutique</a>
+            <a href="/boutique" className="hover:text-accent transition-colors cursor-pointer">Boutique</a>
             <span>/</span>
             <span className="text-gray-700">{product.name}</span>
           </nav>
 
-          <ProductDetails product={product} />
+          <ProductDetails product={serializedProduct} />
 
           {similarProducts.length > 0 && (
             <div className="mt-20 border-t border-gray-100 pt-12">

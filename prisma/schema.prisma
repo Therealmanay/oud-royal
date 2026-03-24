@@ -152,6 +152,7 @@ model StatusHistory {
 model Review {
   id         String   @id @default(cuid())
   name       String
+  email      String?
   rating     Int
   comment    String   @db.Text
   isApproved Boolean  @default(false)
